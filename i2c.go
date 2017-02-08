@@ -1,6 +1,6 @@
 // Package i2c provides low level control over the linux i2c bus.
 //
-// Before usage you should load the i2c-dev kenel module
+// Before usage you should load the i2c-dev kernel module
 //
 //      sudo modprobe i2c-dev
 //
