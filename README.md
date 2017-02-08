@@ -1,4 +1,4 @@
-## I2C bus support and management for linux on RPi device and respective clones
+## I2C bus setting up and usage for linux on RPi device and respective clones
 
 This library written in [Go programming language](https://golang.org/) intended to activate and interact with the I2C bus by reading or writing data.
 
