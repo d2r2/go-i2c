@@ -10,6 +10,7 @@ package i2c
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"syscall"
 )
@@ -21,6 +22,10 @@ const (
 // I2C represents a connection to an i2c device.
 type I2C struct {
 	rc *os.File
+	// Logger
+	log *log.Logger
+	// Enable verbose output
+	Debug bool
 }
 
 // New opens a connection to an i2c device.
@@ -36,9 +41,23 @@ func NewI2C(addr uint8, bus int) (*I2C, error) {
 	return this, nil
 }
 
+func (this *I2C) getLogger() *log.Logger {
+	if this.log == nil {
+		this.log = log.New(os.Stdout, "", log.LstdFlags)
+	}
+	return this.log
+}
+
+func (this *I2C) debugf(format string, args ...interface{}) {
+	if this.Debug {
+		lg := this.getLogger()
+		lg.Printf("[i2c] DEBUG "+format, args...)
+	}
+}
+
 // Write sends buf to the remote i2c device. The interpretation of
 // the message is implementation dependant.
-func (this *I2C) Write(buf []byte) (int, error) {
+func (this *I2C) write(buf []byte) (int, error) {
 	return this.rc.Write(buf)
 }
 
@@ -48,7 +67,7 @@ func (this *I2C) WriteByte(b byte) (int, error) {
 	return this.rc.Write(buf[:])
 }
 
-func (this *I2C) Read(p []byte) (int, error) {
+func (this *I2C) read(p []byte) (int, error) {
 	return this.rc.Read(p)
 }
 
@@ -57,18 +76,36 @@ func (this *I2C) Close() error {
 }
 
 // SMBus (System Management Bus) protocol over I2C.
+// Read count of n byte's sequence from i2c device
+// starting from reg address.
+func (this *I2C) ReadRegBytes(reg byte, n int) ([]byte, int, error) {
+	_, err := this.write([]byte{reg})
+	if err != nil {
+		return nil, 0, err
+	}
+	buf := make([]byte, n)
+	c, err := this.read(buf)
+	if err != nil {
+		return nil, 0, err
+	}
+	this.debugf("Read %d bytes starting from reg 0x%0X", c, reg)
+	return buf, c, nil
+
+}
+
+// SMBus (System Management Bus) protocol over I2C.
 // Read byte from i2c device register specified in reg.
 func (this *I2C) ReadRegU8(reg byte) (byte, error) {
-	_, err := this.Write([]byte{reg})
+	_, err := this.write([]byte{reg})
 	if err != nil {
 		return 0, err
 	}
 	buf := make([]byte, 1)
-	_, err = this.Read(buf)
+	_, err = this.read(buf)
 	if err != nil {
 		return 0, err
 	}
-	log.Debug("Read U8 %d from reg 0x%0X", buf[0], reg)
+	this.debugf("Read U8 %d from reg 0x%0X", buf[0], reg)
 	return buf[0], nil
 }
 
@@ -76,11 +113,11 @@ func (this *I2C) ReadRegU8(reg byte) (byte, error) {
 // Write byte to i2c device register specified in reg.
 func (this *I2C) WriteRegU8(reg byte, value byte) error {
 	buf := []byte{reg, value}
-	_, err := this.Write(buf)
+	_, err := this.write(buf)
 	if err != nil {
 		return err
 	}
-	log.Debug("Write U8 %d to reg 0x%0X", value, reg)
+	this.debugf("Write U8 %d to reg 0x%0X", value, reg)
 	return nil
 }
 
@@ -88,17 +125,17 @@ func (this *I2C) WriteRegU8(reg byte, value byte) error {
 // Read unsigned big endian word (16 bits) from i2c device
 // starting from address specified in reg.
 func (this *I2C) ReadRegU16BE(reg byte) (uint16, error) {
-	_, err := this.Write([]byte{reg})
+	_, err := this.write([]byte{reg})
 	if err != nil {
 		return 0, err
 	}
 	buf := make([]byte, 2)
-	_, err = this.Read(buf)
+	_, err = this.read(buf)
 	if err != nil {
 		return 0, err
 	}
 	w := uint16(buf[0])<<8 + uint16(buf[1])
-	log.Debug("Read U16 %d from reg 0x%0X", w, reg)
+	this.debugf("Read U16 %d from reg 0x%0X", w, reg)
 	return w, nil
 }
 
@@ -119,17 +156,17 @@ func (this *I2C) ReadRegU16LE(reg byte) (uint16, error) {
 // Read signed big endian word (16 bits) from i2c device
 // starting from address specified in reg.
 func (this *I2C) ReadRegS16BE(reg byte) (int16, error) {
-	_, err := this.Write([]byte{reg})
+	_, err := this.write([]byte{reg})
 	if err != nil {
 		return 0, err
 	}
 	buf := make([]byte, 2)
-	_, err = this.Read(buf)
+	_, err = this.read(buf)
 	if err != nil {
 		return 0, err
 	}
 	w := int16(buf[0])<<8 + int16(buf[1])
-	log.Debug("Read S16 %d from reg 0x%0X", w, reg)
+	this.debugf("Read S16 %d from reg 0x%0X", w, reg)
 	return w, nil
 }
 
@@ -152,11 +189,11 @@ func (this *I2C) ReadRegS16LE(reg byte) (int16, error) {
 // starting from address specified in reg.
 func (this *I2C) WriteRegU16BE(reg byte, value uint16) error {
 	buf := []byte{reg, byte((value & 0xFF00) >> 8), byte(value & 0xFF)}
-	_, err := this.Write(buf)
+	_, err := this.write(buf)
 	if err != nil {
 		return err
 	}
-	log.Debug("Write U16 %d to reg 0x%0X", value, reg)
+	this.debugf("Write U16 %d to reg 0x%0X", value, reg)
 	return nil
 }
 
@@ -173,11 +210,11 @@ func (this *I2C) WriteRegU16LE(reg byte, value uint16) error {
 // starting from address specified in reg.
 func (this *I2C) WriteRegS16BE(reg byte, value int16) error {
 	buf := []byte{reg, byte((uint16(value) & 0xFF00) >> 8), byte(value & 0xFF)}
-	_, err := this.Write(buf)
+	_, err := this.write(buf)
 	if err != nil {
 		return err
 	}
-	log.Debug("Write S16 %d to reg 0x%0X", value, reg)
+	this.debugf("Write S16 %d to reg 0x%0X", value, reg)
 	return nil
 }
 
