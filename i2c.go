@@ -13,6 +13,13 @@ import (
 	"log"
 	"os"
 	"syscall"
+
+	logger "github.com/d2r2/go-logger"
+)
+
+var lg = logger.NewPackageLogger("i2c",
+	// logger.DebugLevel,
+	logger.InfoLevel,
 )
 
 const (
@@ -39,20 +46,6 @@ func NewI2C(addr uint8, bus int) (*I2C, error) {
 	}
 	this := &I2C{rc: f}
 	return this, nil
-}
-
-func (this *I2C) getLogger() *log.Logger {
-	if this.log == nil {
-		this.log = log.New(os.Stdout, "", log.LstdFlags)
-	}
-	return this.log
-}
-
-func (this *I2C) debugf(format string, args ...interface{}) {
-	if this.Debug {
-		lg := this.getLogger()
-		lg.Printf("[i2c] DEBUG "+format, args...)
-	}
 }
 
 // Write sends buf to the remote i2c device. The interpretation of
@@ -88,7 +81,7 @@ func (this *I2C) ReadRegBytes(reg byte, n int) ([]byte, int, error) {
 	if err != nil {
 		return nil, 0, err
 	}
-	this.debugf("Read %d bytes starting from reg 0x%0X", c, reg)
+	lg.Debugf("Read %d bytes starting from reg 0x%0X", c, reg)
 	return buf, c, nil
 
 }
@@ -105,7 +98,7 @@ func (this *I2C) ReadRegU8(reg byte) (byte, error) {
 	if err != nil {
 		return 0, err
 	}
-	this.debugf("Read U8 %d from reg 0x%0X", buf[0], reg)
+	lg.Debugf("Read U8 %d from reg 0x%0X", buf[0], reg)
 	return buf[0], nil
 }
 
@@ -117,7 +110,7 @@ func (this *I2C) WriteRegU8(reg byte, value byte) error {
 	if err != nil {
 		return err
 	}
-	this.debugf("Write U8 %d to reg 0x%0X", value, reg)
+	lg.Debugf("Write U8 %d to reg 0x%0X", value, reg)
 	return nil
 }
 
@@ -135,7 +128,7 @@ func (this *I2C) ReadRegU16BE(reg byte) (uint16, error) {
 		return 0, err
 	}
 	w := uint16(buf[0])<<8 + uint16(buf[1])
-	this.debugf("Read U16 %d from reg 0x%0X", w, reg)
+	lg.Debugf("Read U16 %d from reg 0x%0X", w, reg)
 	return w, nil
 }
 
@@ -166,7 +159,7 @@ func (this *I2C) ReadRegS16BE(reg byte) (int16, error) {
 		return 0, err
 	}
 	w := int16(buf[0])<<8 + int16(buf[1])
-	this.debugf("Read S16 %d from reg 0x%0X", w, reg)
+	lg.Debugf("Read S16 %d from reg 0x%0X", w, reg)
 	return w, nil
 }
 
@@ -193,7 +186,7 @@ func (this *I2C) WriteRegU16BE(reg byte, value uint16) error {
 	if err != nil {
 		return err
 	}
-	this.debugf("Write U16 %d to reg 0x%0X", value, reg)
+	lg.Debugf("Write U16 %d to reg 0x%0X", value, reg)
 	return nil
 }
 
@@ -214,7 +207,7 @@ func (this *I2C) WriteRegS16BE(reg byte, value int16) error {
 	if err != nil {
 		return err
 	}
-	this.debugf("Write S16 %d to reg 0x%0X", value, reg)
+	lg.Debugf("Write S16 %d to reg 0x%0X", value, reg)
 	return nil
 }
 
