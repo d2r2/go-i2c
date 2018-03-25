@@ -1,12 +1,20 @@
-## I2C bus setting up and usage for linux on RPi device and respective clones
+I2C bus setting up and usage for linux on RPi device and respective clones
+==========================================================================
+
+[![Build Status](https://travis-ci.org/d2r2/go-i2c.svg?branch=master)](https://travis-ci.org/d2r2/go-i2c)
+[![Go Report Card](https://goreportcard.com/badge/github.com/d2r2/go-i2c)](https://goreportcard.com/report/github.com/d2r2/go-i2c)
+[![GoDoc](https://godoc.org/github.com/d2r2/go-i2c?status.svg)](https://godoc.org/github.com/d2r2/go-i2c)
+[![MIT License](http://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 This library written in [Go programming language](https://golang.org/) intended to activate and interact with the I2C bus by reading and writing data.
 
-## Compatibility
+Compatibility
+-------------
 
 Tested on Raspberry PI 1 (model B) and Banana PI (model M1).
 
-## Golang usage
+Golang usage
+------------
 
 ```go
 func main() {
@@ -24,15 +32,17 @@ func main() {
 }
 ```
 
-## Getting help
+Getting help
+------------
 
 GoDoc [documentation](http://godoc.org/github.com/d2r2/go-i2c)
 
-## Troubleshoting
+Troubleshoting
+--------------
 
 - How to obtain fresh Golang installation to RPi device (either any RPi clone):
   
-  Download fresh stable ARM tar.gz release file (containing armv6l in file name): https://golang.org/dl/.
+  Download fresh stable ARM tar.gz release file (containing armv6l in the file name): https://golang.org/dl/.
   Read instruction how to unpack content to /usr/local/ folder and update/set up such variables from user environment as PATH, GOPATH and so on.
 
 - How to enable I2C bus on RPi device:
@@ -43,6 +53,7 @@ GoDoc [documentation](http://godoc.org/github.com/d2r2/go-i2c)
 
   Use i2cdetect utility in format "i2cdetect -y X", where X vary from 0 to 5 or more, to discover address occupied by device. To install utility you should run `apt-get install i2c-tools` on debian-kind system.
 
-## License
+License
+-------
 
 Go-i2c is licensed inder MIT License.
