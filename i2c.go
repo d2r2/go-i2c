@@ -13,13 +13,6 @@ import (
 	"log"
 	"os"
 	"syscall"
-
-	logger "github.com/d2r2/go-logger"
-)
-
-var lg = logger.NewPackageLogger("i2c",
-	// logger.DebugLevel,
-	logger.InfoLevel,
 )
 
 const (
