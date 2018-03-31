@@ -53,7 +53,7 @@ func (this *I2C) WriteByte(b byte) (int, error) {
 	return this.rc.Write(buf[:])
 }
 
-func (this *I2C) read(p []byte) (int, error) {
+func (this *I2C) ReadBytes(p []byte) (int, error) {
 	return this.rc.Read(p)
 }
 
@@ -70,7 +70,7 @@ func (this *I2C) ReadRegBytes(reg byte, n int) ([]byte, int, error) {
 		return nil, 0, err
 	}
 	buf := make([]byte, n)
-	c, err := this.read(buf)
+	c, err := this.ReadBytes(buf)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -87,7 +87,7 @@ func (this *I2C) ReadRegU8(reg byte) (byte, error) {
 		return 0, err
 	}
 	buf := make([]byte, 1)
-	_, err = this.read(buf)
+	_, err = this.ReadBytes(buf)
 	if err != nil {
 		return 0, err
 	}
@@ -116,7 +116,7 @@ func (this *I2C) ReadRegU16BE(reg byte) (uint16, error) {
 		return 0, err
 	}
 	buf := make([]byte, 2)
-	_, err = this.read(buf)
+	_, err = this.ReadBytes(buf)
 	if err != nil {
 		return 0, err
 	}
@@ -147,7 +147,7 @@ func (this *I2C) ReadRegS16BE(reg byte) (int16, error) {
 		return 0, err
 	}
 	buf := make([]byte, 2)
-	_, err = this.read(buf)
+	_, err = this.ReadBytes(buf)
 	if err != nil {
 		return 0, err
 	}
