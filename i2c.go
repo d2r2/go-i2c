@@ -63,8 +63,11 @@ func (v *I2C) read(buf []byte) (int, error) {
 
 func (v *I2C) ReadBytes(buf []byte) (int, error) {
 	n, err := v.read(buf)
+	if err != nil {
+		return n, err
+	}
 	lg.Debugf("Read %d hex bytes: [%+v]", len(buf), hex.EncodeToString(buf))
-	return n, err
+	return n, nil
 }
 
 func (v *I2C) Close() error {
@@ -75,6 +78,7 @@ func (v *I2C) Close() error {
 // Read count of n byte's sequence from i2c device
 // starting from reg address.
 func (v *I2C) ReadRegBytes(reg byte, n int) ([]byte, int, error) {
+	lg.Debugf("Read %d bytes starting from reg 0x%0X...", n, reg)
 	_, err := v.WriteBytes([]byte{reg})
 	if err != nil {
 		return nil, 0, err
@@ -84,7 +88,6 @@ func (v *I2C) ReadRegBytes(reg byte, n int) ([]byte, int, error) {
 	if err != nil {
 		return nil, 0, err
 	}
-	lg.Debugf("Read %d bytes starting from reg 0x%0X", c, reg)
 	return buf, c, nil
 
 }
