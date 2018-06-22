@@ -1,6 +1,7 @@
 language: go
 go:
-  - "tip"
+  - "1.10"
+# - "tip"
 
 # first part of the GOARCH workaround
 # setting the GOARCH directly doesn't work, since the value will be overwritten later
