@@ -11,7 +11,6 @@ package i2c
 import (
 	"encoding/hex"
 	"fmt"
-	"log"
 	"os"
 	"syscall"
 )
@@ -23,10 +22,6 @@ const (
 // I2C represents a connection to an i2c device.
 type I2C struct {
 	rc *os.File
-	// Logger
-	log *log.Logger
-	// Enable verbose output
-	Debug bool
 }
 
 // New opens a connection to an i2c device.
