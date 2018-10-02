@@ -173,7 +173,7 @@ func (v *I2C) ReadRegS16LE(reg byte) (int16, error) {
 		return 0, err
 	}
 	// exchange bytes
-	w = (w&0xFF)<<8 + (w>>8) & 0xFF
+	w = (w&0xFF)<<8 + w>>8
 	return w, nil
 
 }
