@@ -54,7 +54,7 @@ Finally you should have device like /dev/i2c-1 present in the system.
 - *How to find I2C bus allocation and device address:*
 Use i2cdetect utility in format "i2cdetect -y X", where X may vary from 0 to 5 or more,
 to discover address occupied by peripheral device. To install utility you should run
-`apt install i2c-tools` on debian-kind system. `i2detect -y 1` sample output:
+`apt install i2c-tools` on debian-kind system. `i2cdetect -y 1` sample output:
 	```
 	     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 	00:          -- -- -- -- -- -- -- -- -- -- -- -- --
