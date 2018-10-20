@@ -37,7 +37,7 @@ Tutorial
 
 You can find a certain number of my projects here, which use i2c library as a starting point to interact with various peripheral devices and sensors for use in embedded Linux devices. All of these libraries start with a standard call to open I2C-connection to specific bus line and address, than pass i2c instance to device.
 
-By default, go-i2c use [go-logger](https://github.com/d2r2/go-logger) library to output debug and other notification's lines which produce all necessary levels of verbosity. You can manage what level of verbosity you would like to see, by adding call:
+By default, go-i2c use [go-logger](https://github.com/d2r2/go-logger) library to output debug and other notification's lines which produce all necessary levels of logging. You can manage what level of verbosity you would like to see, by adding call:
 ```go
 // Uncomment/comment next line to suppress/increase verbosity of output
 logger.ChangePackageLogLevel("i2c", logger.InfoLevel)
