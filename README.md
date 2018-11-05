@@ -44,12 +44,13 @@ logger.ChangePackageLogLevel("i2c", logger.InfoLevel)
 ```
 Once you put this call, it will decrease verbosity from default "Debug" up to next "Info" level, reducing the number of low-level console outputs that occur during interaction with the I2C bus. Please, find examples in corresponding I2C-driven sensors among my projects.
 
-Here I will list all devices and sensors supported by me that reference this library:
+You will find here the list of all devices and sensors supported by me, that reference this library:
 - [Liquid-crystal display driven by Hitachi HD44780 IC](https://github.com/d2r2/go-hd44780).
 - [Bosch Sensortec BMP180/BMP280/BME280 temperature and pressure sensors](https://github.com/d2r2/go-bsbmp).
 - [Aosong Electronics DHT12/AM2320 humidity and temprature sensors](https://github.com/d2r2/go-aosong).
 - [Silicon Labs Si7021 relative humidity and temperature sensor](https://github.com/d2r2/go-si7021).
 - [Sensirion SHT3x humidity and temperature sensor's family](https://github.com/d2r2/go-sht3x).
+- [STMicroelectronics VL53L0X time-of-flight ranging sensor](https://github.com/d2r2/go-vl53l0x).
 
 
 Getting help
