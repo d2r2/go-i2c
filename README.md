@@ -1,5 +1,5 @@
-I2C bus setting up and usage for linux on RPi device and respective clones
-==========================================================================
+I2C-bus interaction of peripheral sensors with Raspberry PI embedded linux or respective clones
+==============================================================================================
 
 [![Build Status](https://travis-ci.org/d2r2/go-i2c.svg?branch=master)](https://travis-ci.org/d2r2/go-i2c)
 [![Go Report Card](https://goreportcard.com/badge/github.com/d2r2/go-i2c)](https://goreportcard.com/report/github.com/d2r2/go-i2c)
@@ -35,9 +35,9 @@ func main() {
 Tutorial
 --------
 
-You can find a certain number of my projects here, which use i2c library as a starting point to interact with various peripheral devices and sensors for use in embedded Linux devices. All of these libraries start with a standard call to open I2C-connection to specific bus line and address, than pass i2c instance to device.
+My [repositories](https://github.com/d2r2?tab=repositories) contain quite a lot projects, which use i2c library as a starting point to interact with various peripheral devices and sensors for use on embedded Linux devices. All these libraries start with a standard call to open I2C-connection to specific bus line and address, than pass i2c instance to device.
 
-By default, go-i2c use [go-logger](https://github.com/d2r2/go-logger) library to output debug and other notification's lines which produce all necessary levels of logging. You can manage what level of verbosity you would like to see, by adding call:
+In its turn, go-i2c use [go-logger](https://github.com/d2r2/go-logger) library to output debug and other notification's lines which produce all necessary levels of logging. You can manage what level of verbosity you would like to see, by adding call:
 ```go
 // Uncomment/comment next line to suppress/increase verbosity of output
 logger.ChangePackageLogLevel("i2c", logger.InfoLevel)
@@ -47,10 +47,11 @@ Once you put this call, it will decrease verbosity from default "Debug" up to ne
 You will find here the list of all devices and sensors supported by me, that reference this library:
 - [Liquid-crystal display driven by Hitachi HD44780 IC](https://github.com/d2r2/go-hd44780).
 - [Bosch Sensortec BMP180/BMP280/BME280 temperature and pressure sensors](https://github.com/d2r2/go-bsbmp).
-- [Aosong Electronics DHT12/AM2320 humidity and temprature sensors](https://github.com/d2r2/go-aosong).
+- [Aosong Electronics DHT12/AM2320 humidity and temperature sensors](https://github.com/d2r2/go-aosong).
 - [Silicon Labs Si7021 relative humidity and temperature sensor](https://github.com/d2r2/go-si7021).
 - [Sensirion SHT3x humidity and temperature sensor's family](https://github.com/d2r2/go-sht3x).
 - [STMicroelectronics VL53L0X time-of-flight ranging sensor](https://github.com/d2r2/go-vl53l0x).
+- [BH1750 ambient light sensor](https://github.com/d2r2/go-bh1750).
 
 
 Getting help
@@ -58,17 +59,17 @@ Getting help
 
 GoDoc [documentation](http://godoc.org/github.com/d2r2/go-i2c)
 
-Troubleshoting
+Troubleshooting
 --------------
 
 - *How to obtain fresh Golang installation to RPi device (either any RPi clone):*
 If your RaspberryPI golang installation taken by default from repository is outdated, you may consider
-to install actual golang mannualy from official Golang [site](https://golang.org/dl/). Download
+to install actual golang manually from official Golang [site](https://golang.org/dl/). Download
 tar.gz file containing armv6l in the name. Follow installation instructions.
 
 - *How to enable I2C bus on RPi device:*
 If you employ RaspberryPI, use raspi-config utility to activate i2c-bus on the OS level.
-Go to "Interfaceing Options" menu, to active I2C bus.
+Go to "Interfacing Options" menu, to active I2C bus.
 Probably you will need to reboot to load i2c kernel module.
 Finally you should have device like /dev/i2c-1 present in the system.
 
@@ -91,4 +92,4 @@ to discover address occupied by peripheral device. To install utility you should
 License
 -------
 
-Go-i2c is licensed inder MIT License.
+Go-i2c is licensed under MIT License.
