@@ -46,12 +46,13 @@ Once you put this call, it will decrease verbosity from default "Debug" up to ne
 
 You will find here the list of all devices and sensors supported by me, that reference this library:
 - [Liquid-crystal display driven by Hitachi HD44780 IC](https://github.com/d2r2/go-hd44780).
-- [Bosch Sensortec BMP180/BMP280/BME280 temperature and pressure sensors](https://github.com/d2r2/go-bsbmp).
-- [Aosong Electronics DHT12/AM2320 humidity and temperature sensors](https://github.com/d2r2/go-aosong).
-- [Silicon Labs Si7021 relative humidity and temperature sensor](https://github.com/d2r2/go-si7021).
-- [Sensirion SHT3x humidity and temperature sensor's family](https://github.com/d2r2/go-sht3x).
-- [STMicroelectronics VL53L0X time-of-flight ranging sensor](https://github.com/d2r2/go-vl53l0x).
+- [BMP180/BMP280/BME280 temperature and pressure sensors](https://github.com/d2r2/go-bsbmp).
+- [DHT12/AM2320 humidity and temperature sensors](https://github.com/d2r2/go-aosong).
+- [Si7021 relative humidity and temperature sensor](https://github.com/d2r2/go-si7021).
+- [SHT3x humidity and temperature sensor](https://github.com/d2r2/go-sht3x).
+- [VL53L0X time-of-flight ranging sensor](https://github.com/d2r2/go-vl53l0x).
 - [BH1750 ambient light sensor](https://github.com/d2r2/go-bh1750).
+- [MPL3115A2 pressure and temperature sensor](https://github.com/d2r2/go-mpl3115a2).
 
 
 Getting help
