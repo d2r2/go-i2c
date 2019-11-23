@@ -11,7 +11,7 @@ This library written in [Go programming language](https://golang.org/) intended 
 Compatibility
 -------------
 
-Tested on Raspberry PI 1 (model B) and Banana PI (model M1).
+Tested on Raspberry Pi 1 (model B), Raspberry Pi 3 B+, Banana Pi (model M1), Orange Pi Zero, Orange Pi One.
 
 Golang usage
 ------------
@@ -45,6 +45,7 @@ logger.ChangePackageLogLevel("i2c", logger.InfoLevel)
 Once you put this call, it will decrease verbosity from default "Debug" up to next "Info" level, reducing the number of low-level console outputs that occur during interaction with the I2C bus. Please, find examples in corresponding I2C-driven sensors among my projects.
 
 You will find here the list of all devices and sensors supported by me, that reference this library:
+
 - [Liquid-crystal display driven by Hitachi HD44780 IC](https://github.com/d2r2/go-hd44780).
 - [BMP180/BMP280/BME280 temperature and pressure sensors](https://github.com/d2r2/go-bsbmp).
 - [DHT12/AM2320 humidity and temperature sensors](https://github.com/d2r2/go-aosong).
