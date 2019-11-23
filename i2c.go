@@ -1,11 +1,12 @@
-// Package i2c provides low level control over the linux i2c bus.
+// Package i2c provides low level control over the Linux i2c bus.
 //
 // Before usage you should load the i2c-dev kernel module
 //
 //      sudo modprobe i2c-dev
 //
 // Each i2c bus can address 127 independent i2c devices, and most
-// linux systems contain several buses.
+// Linux systems contain several buses.
+
 package i2c
 
 import (
@@ -13,10 +14,6 @@ import (
 	"fmt"
 	"os"
 	"syscall"
-)
-
-const (
-	I2C_SLAVE = 0x0703
 )
 
 // I2C represents a connection to I2C-device.
@@ -48,7 +45,7 @@ func (v *I2C) GetBus() int {
 	return v.bus
 }
 
-// GetBus return device occupied address in the bus.
+// GetAddr return device occupied address in the bus.
 func (v *I2C) GetAddr() uint8 {
 	return v.addr
 }
@@ -57,8 +54,8 @@ func (v *I2C) write(buf []byte) (int, error) {
 	return v.rc.Write(buf)
 }
 
-// Write sends bytes to the remote I2C-device. The interpretation of
-// the message is implementation-dependant.
+// WriteBytes send bytes to the remote I2C-device. The interpretation of
+// the message is implementation-dependent.
 func (v *I2C) WriteBytes(buf []byte) (int, error) {
 	lg.Debugf("Write %d hex bytes: [%+v]", len(buf), hex.EncodeToString(buf))
 	return v.write(buf)
@@ -68,7 +65,7 @@ func (v *I2C) read(buf []byte) (int, error) {
 	return v.rc.Read(buf)
 }
 
-// ReadBytes reads bytes from I2C-device.
+// ReadBytes read bytes from I2C-device.
 // Number of bytes read correspond to buf parameter length.
 func (v *I2C) ReadBytes(buf []byte) (int, error) {
 	n, err := v.read(buf)
