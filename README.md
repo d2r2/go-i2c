@@ -20,14 +20,18 @@ Golang usage
 func main() {
   // Create new connection to I2C bus on 2 line with address 0x27
   i2c, err := i2c.NewI2C(0x27, 2)
-  if err != nil { log.Fatal(err) }
+  if err != nil { 
+      log.Fatal(err) 
+  }
   // Free I2C connection on exit
   defer i2c.Close()
   ....
   // Here goes code specific for sending and reading data
   // to and from device connected via I2C bus, like:
-  _, err := i2c.Write([]byte{0x1, 0xF3})
-  if err != nil { log.Fatal(err) }
+  _, err := i2c.WriteBytes([]byte{0x1, 0xF3})
+  if err != nil { 
+      log.Fatal(err) 
+  }
   ....
 }
 ```
@@ -54,6 +58,7 @@ You will find here the list of all devices and sensors supported by me, that ref
 - [VL53L0X time-of-flight ranging sensor](https://github.com/d2r2/go-vl53l0x).
 - [BH1750 ambient light sensor](https://github.com/d2r2/go-bh1750).
 - [MPL3115A2 pressure and temperature sensor](https://github.com/d2r2/go-mpl3115a2).
+- [PCA9685 16-Channel 12-Bit PWM Driver](https://github.com/googolgl/go-pca9685).
 
 
 Getting help
@@ -67,7 +72,7 @@ Troubleshooting
 - *How to obtain fresh Golang installation to RPi device (either any RPi clone):*
 If your RaspberryPI golang installation taken by default from repository is outdated, you may consider
 to install actual golang manually from official Golang [site](https://golang.org/dl/). Download
-tar.gz file containing armv6l in the name. Follow installation instructions.
+tar.gz file containing arm64 in the name. Follow installation instructions.
 
 - *How to enable I2C bus on RPi device:*
 If you employ RaspberryPI, use raspi-config utility to activate i2c-bus on the OS level.

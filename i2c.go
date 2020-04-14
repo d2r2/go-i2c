@@ -18,7 +18,7 @@ import (
 
 // I2C represents a connection to I2C-device.
 type I2C struct {
-	addr uint8
+	addr byte
 	bus  int
 	rc   *os.File
 }
@@ -28,7 +28,7 @@ type I2C struct {
 // supported as well: you should preliminary specify
 // register address to read from, either write register
 // together with the data in case of write operations.
-func NewI2C(addr uint8, bus int) (*I2C, error) {
+func NewI2C(addr byte, bus int) (*I2C, error) {
 	f, err := os.OpenFile(fmt.Sprintf("/dev/i2c-%d", bus), os.O_RDWR, 0600)
 	if err != nil {
 		return nil, err

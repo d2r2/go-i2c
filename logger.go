@@ -6,6 +6,6 @@ import logger "github.com/d2r2/go-logger"
 // in the package by changing last parameter value
 // (comment/uncomment corresponding lines).
 var lg = logger.NewPackageLogger("i2c",
-	logger.DebugLevel,
-	// logger.InfoLevel,
+	//logger.DebugLevel,
+	logger.InfoLevel,
 )
