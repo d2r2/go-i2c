@@ -7,13 +7,6 @@ import "C"
 
 // Get I2C_SLAVE constant value from
 // Linux OS I2C declaration file.
-var (
-	I2C_SLAVE = GetValI2c()
+const (
+	I2C_SLAVE = C.I2C_SLAVE
 )
-
-func GetValI2c() uintptr {
-	if C.I2C_SLAVE != 0 {
-		return C.I2C_SLAVE
-	}
-	return 0x0703
-}

@@ -10,6 +10,7 @@
 package i2c
 
 import (
+	"encoding/hex"
 	"fmt"
 	"os"
 	"syscall"
@@ -27,7 +28,7 @@ type I2C struct {
 // supported as well: you should preliminary specify
 // register address to read from, either write register
 // together with the data in case of write operations.
-func I2CNew(addr byte, bus int) (*I2C, error) {
+func NewI2C(addr byte, bus int) (*I2C, error) {
 	f, err := os.OpenFile(fmt.Sprintf("/dev/i2c-%d", bus), os.O_RDWR, 0600)
 	if err != nil {
 		return nil, err
@@ -49,19 +50,29 @@ func (v *I2C) GetAddr() uint8 {
 	return v.addr
 }
 
+func (v *I2C) write(buf []byte) (int, error) {
+	return v.rc.Write(buf)
+}
+
 // WriteBytes send bytes to the remote I2C-device. The interpretation of
 // the message is implementation-dependent.
 func (v *I2C) WriteBytes(buf []byte) (int, error) {
-	return v.rc.Write(buf)
+	lg.Debugf("Write %d hex bytes: [%+v]", len(buf), hex.EncodeToString(buf))
+	return v.write(buf)
+}
+
+func (v *I2C) read(buf []byte) (int, error) {
+	return v.rc.Read(buf)
 }
 
 // ReadBytes read bytes from I2C-device.
 // Number of bytes read correspond to buf parameter length.
 func (v *I2C) ReadBytes(buf []byte) (int, error) {
-	n, err := v.rc.Read(buf)
+	n, err := v.read(buf)
 	if err != nil {
 		return n, err
 	}
+	lg.Debugf("Read %d hex bytes: [%+v]", len(buf), hex.EncodeToString(buf))
 	return n, nil
 }
 
@@ -74,6 +85,7 @@ func (v *I2C) Close() error {
 // starting from reg address.
 // SMBus (System Management Bus) protocol over I2C.
 func (v *I2C) ReadRegBytes(reg byte, n int) ([]byte, int, error) {
+	lg.Debugf("Read %d bytes starting from reg 0x%0X...", n, reg)
 	_, err := v.WriteBytes([]byte{reg})
 	if err != nil {
 		return nil, 0, err
@@ -99,6 +111,7 @@ func (v *I2C) ReadRegU8(reg byte) (byte, error) {
 	if err != nil {
 		return 0, err
 	}
+	lg.Debugf("Read U8 %d from reg 0x%0X", buf[0], reg)
 	return buf[0], nil
 }
 
@@ -110,6 +123,7 @@ func (v *I2C) WriteRegU8(reg byte, value byte) error {
 	if err != nil {
 		return err
 	}
+	lg.Debugf("Write U8 %d to reg 0x%0X", value, reg)
 	return nil
 }
 
@@ -127,6 +141,7 @@ func (v *I2C) ReadRegU16BE(reg byte) (uint16, error) {
 		return 0, err
 	}
 	w := uint16(buf[0])<<8 + uint16(buf[1])
+	lg.Debugf("Read U16 %d from reg 0x%0X", w, reg)
 	return w, nil
 }
 
@@ -157,6 +172,7 @@ func (v *I2C) ReadRegS16BE(reg byte) (int16, error) {
 		return 0, err
 	}
 	w := int16(buf[0])<<8 + int16(buf[1])
+	lg.Debugf("Read S16 %d from reg 0x%0X", w, reg)
 	return w, nil
 }
 
@@ -183,6 +199,7 @@ func (v *I2C) WriteRegU16BE(reg byte, value uint16) error {
 	if err != nil {
 		return err
 	}
+	lg.Debugf("Write U16 %d to reg 0x%0X", value, reg)
 	return nil
 }
 
@@ -203,6 +220,7 @@ func (v *I2C) WriteRegS16BE(reg byte, value int16) error {
 	if err != nil {
 		return err
 	}
+	lg.Debugf("Write S16 %d to reg 0x%0X", value, reg)
 	return nil
 }
 
