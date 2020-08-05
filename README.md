@@ -1,9 +1,8 @@
 I2C-bus interaction of peripheral sensors with Raspberry PI embedded linux or respective clones
 ==============================================================================================
 
-[![Build Status](https://travis-ci.org/d2r2/go-i2c.svg?branch=master)](https://travis-ci.org/d2r2/go-i2c)
-[![Go Report Card](https://goreportcard.com/badge/github.com/d2r2/go-i2c)](https://goreportcard.com/report/github.com/d2r2/go-i2c)
-[![GoDoc](https://godoc.org/github.com/d2r2/go-i2c?status.svg)](https://godoc.org/github.com/d2r2/go-i2c)
+[![Go Report Card](https://goreportcard.com/badge/github.com/d2r2/go-i2c)](https://goreportcard.com/report/github.com/googolgl/go-i2c)
+[![GoDoc](https://godoc.org/github.com/d2r2/go-i2c?status.svg)](https://godoc.org/github.com/googolgl/go-i2c)
 [![MIT License](http://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 This library written in [Go programming language](https://golang.org/) intended to activate and interact with the I2C bus by reading and writing data.
@@ -19,18 +18,22 @@ Golang usage
 ```go
 func main() {
   // Create new connection to I2C bus on 2 line with address 0x27
-  i2c, err := i2c.NewI2C(0x27, 2)
+  i2c, err := i2c.New(0x27, 2)
   if err != nil { 
-      log.Fatal(err) 
+      i2c.Log.Fatal(err)
   }
   // Free I2C connection on exit
   defer i2c.Close()
+
+  // Set log level: 0 - Panic, 1 - Fatal, 2 - Error, 3 - Warning, 4 - Info, 5 - Debug
+  i2c.Log.SetLevel(5)
   ....
+
   // Here goes code specific for sending and reading data
   // to and from device connected via I2C bus, like:
   _, err := i2c.WriteBytes([]byte{0x1, 0xF3})
   if err != nil { 
-      log.Fatal(err) 
+      i2c.Log.Fatal(err)
   }
   ....
 }
@@ -39,14 +42,7 @@ func main() {
 Tutorial
 --------
 
-My [repositories](https://github.com/d2r2?tab=repositories) contain quite a lot projects, which use i2c library as a starting point to interact with various peripheral devices and sensors for use on embedded Linux devices. All these libraries start with a standard call to open I2C-connection to specific bus line and address, than pass i2c instance to device.
-
-In its turn, go-i2c use [go-logger](https://github.com/d2r2/go-logger) library to output debug and other notification's lines which produce all necessary levels of logging. You can manage what level of verbosity you would like to see, by adding call:
-```go
-// Uncomment/comment next line to suppress/increase verbosity of output
-logger.ChangePackageLogLevel("i2c", logger.InfoLevel)
-```
-Once you put this call, it will decrease verbosity from default "Debug" up to next "Info" level, reducing the number of low-level console outputs that occur during interaction with the I2C bus. Please, find examples in corresponding I2C-driven sensors among my projects.
+In [repositories](https://github.com/d2r2?tab=repositories) contain quite a lot projects, which use i2c library as a starting point to interact with various peripheral devices and sensors for use on embedded Linux devices. All these libraries start with a standard call to open I2C-connection to specific bus line and address, than pass i2c instance to device.
 
 You will find here the list of all devices and sensors supported by me, that reference this library:
 
@@ -64,7 +60,7 @@ You will find here the list of all devices and sensors supported by me, that ref
 Getting help
 ------------
 
-GoDoc [documentation](http://godoc.org/github.com/d2r2/go-i2c)
+GoDoc [documentation](https://godoc.org/github.com/googolgl/go-i2c)
 
 Troubleshooting
 --------------
@@ -90,7 +86,7 @@ to discover address occupied by peripheral device. To install utility you should
 	10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 	20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 	30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-	40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+	40: 40 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 	50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 	60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 	70: -- -- -- -- -- -- 76 --    

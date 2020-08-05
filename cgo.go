@@ -1,5 +1,4 @@
 // +build linux,cgo
-
 package i2c
 
 // #include <linux/i2c-dev.h>
