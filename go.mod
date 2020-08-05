@@ -1,4 +1,4 @@
-module i2c
+module go-i2c
 
 go 1.14
 
