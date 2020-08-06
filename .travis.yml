@@ -1,6 +1,6 @@
 language: go
 go:
-  - "1.10"
+  - "1.14"
 # - "tip"
 
 # first part of the GOARCH workaround

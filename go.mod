@@ -1,4 +1,4 @@
-module go-i2c
+module github.com/googolgl/go-i2c
 
 go 1.14
 
