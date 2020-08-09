@@ -34,12 +34,7 @@ func New(addr uint8, bus int) (*Options, error) {
 	v := &Options{
 		addr: addr,
 		bus:  bus,
-		Log: &logrus.Logger{
-			Out:       os.Stderr,
-			Formatter: new(logrus.TextFormatter),
-			//Hooks:     make(logrus.LevelHooks),
-			Level: logrus.InfoLevel,
-		},
+		Log:  logrus.New(),
 	}
 
 	f, err := os.OpenFile(fmt.Sprintf("/dev/i2c-%d", bus), os.O_RDWR, 0600)

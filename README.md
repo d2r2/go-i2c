@@ -18,24 +18,22 @@ Golang usage
 ```go
 func main() {
   // Create new connection to I2C bus on 2 line with address 0x27
-  i2c, err := i2c.New(0x27, 2)
+  i2cDevice, err := i2c.New(0x27, 2)
   if err != nil { 
-      i2c.Log.Fatal(err)
+      i2cDevice.Log.Fatal(err)
   }
   // Free I2C connection on exit
-  defer i2c.Close()
+  defer i2cDevice.Close()
 
   // Set log level: 0 - Panic, 1 - Fatal, 2 - Error, 3 - Warning, 4 - Info, 5 - Debug
-  i2c.Log.SetLevel(5)
-  ....
+  i2cDevice.Log.SetLevel(5)
 
   // Here goes code specific for sending and reading data
   // to and from device connected via I2C bus, like:
-  _, err := i2c.WriteBytes([]byte{0x1, 0xF3})
+  _, err = i2cDevice.WriteBytes([]byte{0x1, 0xF3})
   if err != nil { 
-      i2c.Log.Fatal(err)
+      i2cDevice.Log.Fatal(err)
   }
-  ....
 }
 ```
 
