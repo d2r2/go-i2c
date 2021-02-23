@@ -53,6 +53,7 @@ You will find here the list of all devices and sensors supported by me, that ref
 - [BH1750 ambient light sensor](https://github.com/d2r2/go-bh1750).
 - [MPL3115A2 pressure and temperature sensor](https://github.com/d2r2/go-mpl3115a2).
 - [PCA9685 16-Channel 12-Bit PWM Driver](https://github.com/googolgl/go-pca9685).
+- [MCP23017 16-Bit I/O Expander with Serial Interface Driver](https://github.com/googolgl/go-mcp23017).
 
 
 Getting help
