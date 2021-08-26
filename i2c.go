@@ -23,17 +23,29 @@ type I2C struct {
 	rc   *os.File
 }
 
+//Options defines I2C options
+type Options struct {
+	//Force if true, forces to open i2c even if address is taken by Linux driver
+	Force bool
+}
+
 // NewI2C opens a connection for I2C-device.
 // SMBus (System Management Bus) protocol over I2C
 // supported as well: you should preliminary specify
 // register address to read from, either write register
 // together with the data in case of write operations.
-func NewI2C(addr uint8, bus int) (*I2C, error) {
+// if opts are nil will use defaults
+func NewI2C(addr uint8, bus int, opts *Options) (*I2C, error) {
 	f, err := os.OpenFile(fmt.Sprintf("/dev/i2c-%d", bus), os.O_RDWR, 0600)
 	if err != nil {
 		return nil, err
 	}
-	if err := ioctl(f.Fd(), I2C_SLAVE, uintptr(addr)); err != nil {
+	if opts != nil && opts.Force {
+		err = ioctl(f.Fd(), I2C_SLAVE_FORCE, uintptr(addr))
+	} else {
+		err = ioctl(f.Fd(), I2C_SLAVE, uintptr(addr))
+	}
+	if err != nil {
 		return nil, err
 	}
 	v := &I2C{rc: f, bus: bus, addr: addr}

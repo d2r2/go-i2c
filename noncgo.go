@@ -7,5 +7,6 @@ package i2c
 // This is not a good approach, but
 // can be used as a last resort.
 const (
-	I2C_SLAVE = 0x0703
+	I2C_SLAVE       = 0x0703
+	I2C_SLAVE_FORCE = 0x0706
 )
