@@ -34,8 +34,13 @@ type Options struct {
 // supported as well: you should preliminary specify
 // register address to read from, either write register
 // together with the data in case of write operations.
-// if opts are nil will use defaults
-func NewI2C(addr uint8, bus int, opts *Options) (*I2C, error) {
+func NewI2C(addr uint8, bus int) (*I2C, error) {
+	return NewI2CWithOptions(addr, bus, nil)
+}
+
+// NewI2CWithOptions same as NewI2C, but with provided options.
+// If opts are nil will use defaults
+func NewI2CWithOptions(addr uint8, bus int, opts *Options) (*I2C, error) {
 	f, err := os.OpenFile(fmt.Sprintf("/dev/i2c-%d", bus), os.O_RDWR, 0600)
 	if err != nil {
 		return nil, err
