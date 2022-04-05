@@ -26,7 +26,7 @@ func main() {
   ....
   // Here goes code specific for sending and reading data
   // to and from device connected via I2C bus, like:
-  _, err := i2c.Write([]byte{0x1, 0xF3})
+  _, err := i2c.WriteBytes([]byte{0x1, 0xF3})
   if err != nil { log.Fatal(err) }
   ....
 }
