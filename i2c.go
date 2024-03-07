@@ -207,7 +207,7 @@ func (v *I2C) WriteRegU16BE(reg byte, value uint16) error {
 // value to I2C-device starting from address specified in reg.
 // SMBus (System Management Bus) protocol over I2C.
 func (v *I2C) WriteRegU16LE(reg byte, value uint16) error {
-	w := (value*0xFF00)>>8 + value<<8
+	w := (value&0xFF00)>>8 + value<<8
 	return v.WriteRegU16BE(reg, w)
 }
 
@@ -228,7 +228,7 @@ func (v *I2C) WriteRegS16BE(reg byte, value int16) error {
 // value to I2C-device starting from address specified in reg.
 // SMBus (System Management Bus) protocol over I2C.
 func (v *I2C) WriteRegS16LE(reg byte, value int16) error {
-	w := int16((uint16(value)*0xFF00)>>8) + value<<8
+	w := int16((uint16(value)&0xFF00)>>8) + value<<8
 	return v.WriteRegS16BE(reg, w)
 }
 
